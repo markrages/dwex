@@ -58,8 +58,8 @@ class TheWindow(QMainWindow):
             f = self.sett.value("General/MRU%d" % i, False)
             if f:
                 arch = self.sett.value("General/MRUArch%d" % i, None)
-                fa = (f,) if arch is None else (f,arch) 
-                self.mru.append(fa)        
+                fa = (f,) if arch is None else (f,arch)
+                self.mru.append(fa)
 
     ###################################################################
     # Done with init, now file stuff
@@ -127,7 +127,7 @@ class TheWindow(QMainWindow):
 
     def save_mru(self):
         for i, fa in enumerate(self.mru):
-            self.sett.setValue("General/MRU%d" % i, fa[0])    
+            self.sett.setValue("General/MRU%d" % i, fa[0])
             if len(fa) > 1:
                 self.sett.setValue("General/MRUArch%d" % i, fa[1])
             else:
@@ -137,11 +137,11 @@ class TheWindow(QMainWindow):
     def open_file_interactive(self, filename, arch = None):
         try:
             if self.open_file(filename, arch) is None:
-                QMessageBox(QMessageBox.Icon.Warning, "DWARF Explorer",
+                QMessageBox(QMessageBox.Warning, "DWARF Explorer",
                     "The file contains no DWARF information, or it is in an unsupported format.",
                     QMessageBox.Ok, self).show()
         except Exception as exc:
-            QMessageBox(QMessageBox.Icon.Critical, "DWARF Explorer",
+            QMessageBox(QMessageBox.Critical, "DWARF Explorer",
                 "Error opening the file:\n\n" + format(exc),
                 QMessageBox.Ok, self).show()
 
@@ -182,7 +182,7 @@ class TheWindow(QMainWindow):
             self.save_mru()
             self.mru_menu.setEnabled(True)
             self.mru_menu.clear()
-            self.populate_mru_menu()    
+            self.populate_mru_menu()
 
     # File drag/drop handling - equivalent to open
     def dragEnterEvent(self, evt):
@@ -190,11 +190,11 @@ class TheWindow(QMainWindow):
             evt.accept()
 
     def dropEvent(self, evt):
-        self.open_file_interactive(os.path.normpath(evt.mimeData().urls()[0].toLocalFile()))               
+        self.open_file_interactive(os.path.normpath(evt.mimeData().urls()[0].toLocalFile()))
 
     #############################################################
     # Done with file stuff, now tree navigation
-    #############################################################     
+    #############################################################
 
     # Index is a tree index - the DIE is the data object within
     def display_die(self, index):
@@ -215,7 +215,7 @@ class TheWindow(QMainWindow):
         #TODO: resize the attribute table vertically dynamically
         #attr_count = self.die_model.rowCount(None)
         #die_table.resize(die_table.size().width(),
-        #    die_table.rowViewportPosition(attr_count-1) + 
+        #    die_table.rowViewportPosition(attr_count-1) +
         #        die_table.rowHeight(attr_count-1) +
         #        die_table.horizontalHeader().size().height() + 1 + attr_count)
         #self.rpane_layout.update()
@@ -245,7 +245,7 @@ class TheWindow(QMainWindow):
             self.details_table.setModel(None)
             self.copy_menuitem.setEnabled(False)
             self.copyline_menuitem.setEnabled(False)
-            self.copytable_menuitem.setEnabled(False)            
+            self.copytable_menuitem.setEnabled(False)
             self.followref_menuitem.setEnabled(False)
 
 
@@ -290,7 +290,7 @@ class TheWindow(QMainWindow):
     #        self.on_nav(1)
     #    elif b == Qt.MouseButton.ForwardButton:
     #        self.on_nav(-1)
-        
+
 
     ##########################################################################
     # Find/Find next stuff
@@ -331,7 +331,7 @@ class TheWindow(QMainWindow):
                 self.findcondition = lambda die: ip_in_range(die, ip)
                 self.findcucondition = lambda cu: ip_in_range(cu.get_top_DIE(), ip)
                 self.findnext_menuitem.setEnabled(True)
-                self.on_findnext()            
+                self.on_findnext()
             except ValueError:
                 pass
 
@@ -353,7 +353,7 @@ class TheWindow(QMainWindow):
     ##########################################################################
 
     def on_about(self):
-        QMessageBox(QMessageBox.Icon.Information, "About...", "DWARF Explorer v." + '.'.join(str(v) for v in version) + "\n\nSeva Alekseyev, 2020\nsevaa@sprynet.com\n\ngithub.com/sevaa/dwex",
+        QMessageBox(QMessageBox.Information, "About...", "DWARF Explorer v." + '.'.join(str(v) for v in version) + "\n\nSeva Alekseyev, 2020\nsevaa@sprynet.com\n\ngithub.com/sevaa/dwex",
             QMessageBox.Ok, self).show()
 
     def on_updatecheck(self):
@@ -371,9 +371,9 @@ class TheWindow(QMainWindow):
                     max_tag = '.'.join(str(i) for i in max_ver)
                     if max_ver > version:
                         s = "DWARF Explorer v." + max_tag + " is out. Use \"pip install --upgrade dwex\" to update."
-                    else: 
+                    else:
                         s = "You have the latest version."
-                    QMessageBox(QMessageBox.Icon.Information, "DWARF Explorer", s, QMessageBox.Ok, self).show()
+                    QMessageBox(QMessageBox.Information, "DWARF Explorer", s, QMessageBox.Ok, self).show()
         except:
             self.end_wait()
 
@@ -392,7 +392,7 @@ class TheWindow(QMainWindow):
             self.refresh_details()
 
     # Checkmark toggling is handled by the framework
-    def on_view_lowlevel(self, checked):   
+    def on_view_lowlevel(self, checked):
         self.lowlevel = checked
         self.sett.setValue('General/LowLevel', self.lowlevel)
         if self.die_model:
@@ -400,7 +400,7 @@ class TheWindow(QMainWindow):
             if new_sel:
                 self.die_table.setCurrentIndex(new_sel)
 
-    def on_view_hex(self, checked):        
+    def on_view_hex(self, checked):
         self.hex = checked
         self.sett.setValue('General/Hex', self.hex)
         if self.die_model:
@@ -443,7 +443,7 @@ class TheWindow(QMainWindow):
         props = (cu['version'], cu['unit_length'], cu['debug_abbrev_offset'], cu['address_size'])
         s = "DWARF version:\t%d\nLength:\t%d\nAbbrev table offset: 0x%x\nAddress size:\t%d" % props
         t = "CU at 0x%x" % cu.cu_offset
-        QMessageBox(QMessageBox.Icon.Information, t, s, QMessageBox.Ok, self).show()
+        QMessageBox(QMessageBox.Information, t, s, QMessageBox.Ok, self).show()
 
     def on_copy(self, v):
         cb = QApplication.clipboard()
@@ -503,25 +503,25 @@ class TheApp(QApplication):
         QApplication.__init__(self, [])
 
     def notify(self, o, evt):
-        if evt.type() == QEvent.Type.MouseButtonPress and isinstance(o, QWindow):
+        if evt.type() == QEvent.MouseButtonPress and isinstance(o, QWindow):
             b = evt.button()
-            if b == Qt.MouseButton.BackButton:
+            if b == Qt.BackButton:
                 self.win.on_nav(1)
-            elif b == Qt.MouseButton.ForwardButton:
+            elif b == Qt.ForwardButton:
                 self.win.on_nav(-1)
         return QApplication.notify(self, o, evt)
-    
+
     def start(self):
         self.win = TheWindow()
         self.exec_()
 
-def main():     
+def main():
     if sys.settrace is None: # Lame way to detect a debugger
         on_exception.prev_exchook = sys.excepthook
         sys.excepthook = on_exception
 
     TheApp().start()
-            
+
 
 # For running via "python -m dwex"
 # Running this file directly won't work, it relies on being in a module

@@ -28,7 +28,7 @@ def die_sort_key(die):
 
 #------------------------------------------------
 # CU tree formatter
-#------------------------------------------------    
+#------------------------------------------------
 
 # Some additional data for every DIE
 def decorate_die(die, i):
@@ -41,7 +41,7 @@ def load_children(parent_die, sort):
     # Assumes the check if the DIE has children has been already performed
     if '_children' not in dir(parent_die) or parent_die._children is None:
         # TODO: wait cursor here. It may cause disk I/O
-        parent_die._children = [decorate_die(die, i) for (i, die) in enumerate(parent_die.iter_children())]    
+        parent_die._children = [decorate_die(die, i) for (i, die) in enumerate(parent_die.iter_children())]
         if sort:
             parent_die._children.sort(key = die_sort_key)
             for (i, die) in enumerate(parent_die._children):
@@ -55,7 +55,7 @@ class DWARFTreeModel(QAbstractItemModel):
         self.highlight_condition = None
         fi = QFontInfo(QApplication.font())
         self.bold_font = QFont(fi.family(), fi.pointSize(), QFont.Bold)
-        self.blue_brush = QBrush(Qt.GlobalColor.blue)
+        self.blue_brush = QBrush(Qt.blue)
         self.sortcus = sortcus
         self.sortdies = sortdies
 
@@ -131,7 +131,7 @@ class DWARFTreeModel(QAbstractItemModel):
             self.prefix = prefix
             self.dataChanged.emit(
                 self.createIndex(0, 0, self.top_dies[0]),
-                self.createIndex(len(self.top_dies)-1, 0, self.top_dies[-1]))    
+                self.createIndex(len(self.top_dies)-1, 0, self.top_dies[-1]))
 
     # returns the model index of the selection
     def set_sortcus(self, sortcus, sel):
@@ -244,4 +244,3 @@ class DWARFTreeModel(QAbstractItemModel):
 # Highlighter function(s)
 def has_code_location(die):
     return 'DW_AT_low_pc' in die.attributes or 'DW_AT_ranges' in die.attributes
-

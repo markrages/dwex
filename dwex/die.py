@@ -8,8 +8,8 @@ from .dwex_elftools.dwarf.descriptions import _DESCR_DW_LANG, _DESCR_DW_ATE, _DE
 # DIE formatter
 #------------------------------------------------
 
-_blue_brush = QBrush(Qt.GlobalColor.blue)
-_ltgrey_brush = QBrush(Qt.GlobalColor.lightGray)
+_blue_brush = QBrush(Qt.blue)
+_ltgrey_brush = QBrush(Qt.lightGray)
 
 _ll_headers = ("Attribute", "Offset", "Form", "Raw", "Value")
 _noll_headers = ("Attribute", "Form", "Value")
@@ -39,7 +39,7 @@ class DIETableModel(QAbstractTableModel):
         self.meta_count = _meta_count if lowlevel else 0
 
     def headerData(self, section, ori, role):
-        if ori == Qt.Orientation.Horizontal and role == Qt.DisplayRole:
+        if ori == Qt.Horizontal and role == Qt.DisplayRole:
             return self.headers[section]
 
     def rowCount(self, parent):
@@ -97,7 +97,7 @@ class DIETableModel(QAbstractTableModel):
                 if row == 1: # Should this be always hex? Not sure...
                     return hex(self.die.size) if self.hex else str(self.die.size)
                 elif row == 2: # Hex makes no sense here
-                    return str(self.die.abbrev_code)                    
+                    return str(self.die.abbrev_code)
                 elif row == 3:
                     return str(self.die.has_children)
         elif role == Qt.BackgroundRole:
@@ -329,7 +329,7 @@ class GenericTableModel(QAbstractTableModel):
         self.values = tuple(values)
 
     def headerData(self, section, ori, role):
-        if ori == Qt.Orientation.Horizontal and role == Qt.DisplayRole:
+        if ori == Qt.Horizontal and role == Qt.DisplayRole:
             return self.headers[section]
 
     def rowCount(self, parent):

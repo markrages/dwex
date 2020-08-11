@@ -60,10 +60,10 @@ def setup_menu(win):
     win.copy_menuitem.triggered.connect(win.on_copyvalue)
     win.copyline_menuitem = edit_menu.addAction("Copy line")
     win.copyline_menuitem.setEnabled(False)
-    win.copyline_menuitem.triggered.connect(win.on_copyline)        
+    win.copyline_menuitem.triggered.connect(win.on_copyline)
     win.copytable_menuitem = edit_menu.addAction("Copy table")
     win.copytable_menuitem.setEnabled(False)
-    win.copytable_menuitem.triggered.connect(win.on_copytable)  
+    win.copytable_menuitem.triggered.connect(win.on_copytable)
     #########
     nav_menu = menu.addMenu("Navigate")
     win.back_menuitem = nav_menu.addAction("Back")
@@ -77,7 +77,7 @@ def setup_menu(win):
     win.followref_menuitem = nav_menu.addAction("Follow the ref")
     win.followref_menuitem.setEnabled(False);
     win.followref_menuitem.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Return))
-    win.followref_menuitem.triggered.connect(win.on_followref)        
+    win.followref_menuitem.triggered.connect(win.on_followref)
     nav_menu.addSeparator()
     win.find_menuitem = nav_menu.addAction("Find...")
     win.find_menuitem.setEnabled(False)
@@ -97,7 +97,7 @@ def setup_menu(win):
     help_menu = menu.addMenu("Help")
     about_menuitem = help_menu.addAction("About...")
     about_menuitem.setMenuRole(QAction.AboutRole)
-    about_menuitem.triggered.connect(win.on_about) 
+    about_menuitem.triggered.connect(win.on_about)
     help_menu.addAction('Check for updates...').triggered.connect(win.on_updatecheck)
     help_menu.addAction('Homepage').triggered.connect(win.on_homepage)
 
@@ -107,15 +107,15 @@ def setup_ui(win):
     tree = win.the_tree = QTreeView()
     tree.header().hide()
     tree.setUniformRowHeights(True)
-    
-    rpane = QSplitter(Qt.Orientation.Vertical)
+
+    rpane = QSplitter(Qt.Vertical)
     die_table = win.die_table = QTableView()
-    die_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+    die_table.setSelectionBehavior(QAbstractItemView.SelectRows)
     die_table.doubleClicked.connect(win.on_attribute_dclick)
     rpane.addWidget(die_table)
 
     details_table = win.details_table = QTableView()
-    details_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+    details_table.setSelectionBehavior(QAbstractItemView.SelectRows)
     rpane.addWidget(details_table)
     # All the resizing goes into the bottom pane
     rpane.setStretchFactor(0, 0)
@@ -126,7 +126,7 @@ def setup_ui(win):
     spl.addWidget(rpane)
     # All the resizing goes into the right pane by default
     spl.setStretchFactor(0, 0)
-    spl.setStretchFactor(1, 1) 
+    spl.setStretchFactor(1, 1)
     win.setCentralWidget(spl)
 
     win.setWindowTitle("DWARF Explorer")

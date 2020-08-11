@@ -23,7 +23,7 @@ def create_shortcut():
     except:
         pass
 
-#--------------------------------------    
+#--------------------------------------
 
 class my_install(install):
     def run(self):
@@ -34,7 +34,7 @@ class my_install(install):
 # Pull the long desc from the readme
 try:
     with open(path.join(path.abspath(path.dirname(__file__)), 'README.md')) as f:
-        long_desc = f.read()          
+        long_desc = f.read()
 except:
     long_desc = "GUI viewer for DWARF debug information"
 
@@ -51,7 +51,7 @@ setup(
     url="https://github.com/sevaa/dwex/",
     entry_points={"gui_scripts": ["dwex = dwex.__main__:main"]},
     cmdclass={'install': my_install},
-    
+
     keywords = ['dwarf', 'debug', 'debugging', 'symbols', 'viewer', 'view', 'browser', 'browse', 'tree'],
     license="BSD",
     author="Seva Alekseyev",
@@ -61,7 +61,7 @@ setup(
     long_description_content_type="text/markdown",
     python_requires=">=3.5",
     setup_requires=[],
-    install_requires=['PyQt5', 'filebytes>=0.10.1'],
+    install_requires=['filebytes>=0.10.1'],
     platforms='any',
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -80,4 +80,3 @@ setup(
         "Topic :: Software Development :: Debuggers"
     ]
 )
-
